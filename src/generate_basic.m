@@ -1,6 +1,7 @@
-function [ Rt ] = generate_basic( model )
-%UNTITLED4 Summary of this function goes here
-%   Detailed explanation goes here
+function [ Rt ] = generate_basic( R_total, TimeSteps )
+% generate resources flow in the system at each time step
+ResourceTime = TimeSteps / 2;
+Rt = zeros(1, ResourceTime);
 
 
 end
