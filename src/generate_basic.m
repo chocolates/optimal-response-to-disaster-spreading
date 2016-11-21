@@ -1,26 +1,23 @@
-function [ Rt ] = generate_basic( R_total, TimeSteps )
+function [ Rt ] = generate_basic( model )
 % generate resources flow in the system at each time step
-ResourceTime = TimeSteps / 2;
-Rt = zeros(1, ResourceTime);
+    ResourceTime = model.TimeStep / 2;
+    Rt = zeros(1, ResourceTime);
 
-a1 = 530;
-b1 = 1.6;
-c1 = 0.22;
+    a1 = 530;
+    b1 = 1.6;
+    c1 = 0.22;
 
-t_maxima = b1 / c1;
-unnormalized_r_maxima = a1 * t_maxima ^ b1 * exp(-c1*t_maxima);
+    t_maxima = b1 / c1;
+    unnormalized_r_maxima = a1 * t_maxima ^ b1 * exp(-c1*t_maxima);
+    resource_scale_factor = model.R_tot / unnormalized_r_maxima;
 
-resource_scale_factor = R_total / unnormalized_r_maxima;
-
-for tStep=1:ResourceTime
-    time_1 = tStep / ResourceTime;
-    time_0 = (tStep-1) / ResourceTime;
-    time_1_curve = time_1 * t_maxima;
-    time_0_curve = time_0 * t_maxima;
-    R_1 = resource_scale_factor * a1 * time_1_curve^b1 * exp(-c1 * time_1_curve);
-    R_0 = resource_scale_factor * a1 * time_0_curve^b1 * exp(-c1 * time_0_curve);
-    Rt(tStep) = R_1 - R_0;
-end
+    R_accumulate = zeros(1, ResourceTime+1);
+    for tStep = 1:ResourceTime
+         time_ratio = tStep / ResourceTime;
+         time_on_curve = time_ratio * t_maxima;
+         R_accumulate(tStep + 1) = resource_scale_factor * a1 * time_on_curve^b1 * exp(-c1 * time_on_curve);
+         Rt(tStep) = R_accumulate(tStep+1) - R_accumulate(tStep);
+    end
 
 end
 

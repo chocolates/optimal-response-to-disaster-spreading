@@ -11,11 +11,9 @@ function [ model ] = forward(model)
     end
 
     for t=2:model.TimeStep+1
-        t
         real_time = (t - 1) * model.dt;
-        if rem(real_time, 1) ==0
-            model.record_state(:, real_time) = model.state';
-        end
+        if rem(real_time, 1/model.dt) ==0
+            model.re
         if real_time - model.tD <= model.time_horizon/2 && real_time - model.tD > 0
             R_tol_at_t = model.Rt(t - model.tD/model.dt -1);
         else
