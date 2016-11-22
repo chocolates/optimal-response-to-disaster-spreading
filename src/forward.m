@@ -4,9 +4,9 @@ function [ model ] = forward(model)
     % change the state variables
     beta = 0.025;
     outd = model.outdegree;
-    K = model.M .* exp(- beta * model.delay);
+    K = model.M .* exp( - beta * model.delay); % for the second term
     for i=1:model.NodeNumber
-        denominator = 4 * outd / (1 + 3 * outd);
+        denominator = 4 * outd(i) / (1 + 3 * outd(i));
         K(i, :)  = K(i, :) / denominator;
     end
 
@@ -14,7 +14,7 @@ function [ model ] = forward(model)
         t
         real_time = (t - 1) * model.dt;
         if rem(real_time, 1) ==0
-            model.record_state(:, real_time) = model.state';
+            model.record_state(:, real_time+1) = model.state';
         end
         if real_time - model.tD <= model.time_horizon/2 && real_time - model.tD > 0
             R_tol_at_t = model.Rt(t - model.tD/model.dt -1);
@@ -25,13 +25,19 @@ function [ model ] = forward(model)
         Resource_each_node_at_t = generate_strategy(model, R_tol_at_t);      
         model.Resource_accumulate = model.Resource_accumulate + Resource_each_node_at_t;
         % iterate each node
-        X_tmp = zeros(model.NodeNumber, 1); % the synchronized update
-        second_term = K * model.state';
-        second_term = Theta_function(second_term);
+        X_tmp = model.state;
+        second_term = X_tmp * K;
+        second_term = Theta_function(second_term, model);
         tau_t = (model.Tau_start - model.beta2) * exp(-model.alpha2 * model.Resource_accumulate) + model.beta2;
-        first_term = - model.state ./ tau_t;
-        X_tmp = model.state + model.dt * (first_term + second_term');
-        model.state = X_tmp;
+        first_term = - X_tmp ./tau_t;
+        model.state = model.state + model.dt * (first_term + second_term);
+%         X_tmp = zeros(model.NodeNumber, 1); % the synchronized update
+%         second_term = K * model.state';
+%         second_term = Theta_function(second_term, model);
+%         tau_t = (model.Tau_start - model.beta2) * exp(-model.alpha2 * model.Resource_accumulate) + model.beta2;
+%         first_term = - model.state ./ tau_t;
+%         X_tmp = model.state + model.dt * (first_term + second_term');
+%         model.state = X_tmp;
     %     for i=1:model.NodeNumber
     %         model.Resource_accumulate(i) = model.Resource_accumulate(i) + Resource_each_node_at_t(i);
     %         tau_i_t = (model.Tau_start - model.beta2) * exp(-model.alpha2 * model.Resource_accumulate(i)) + model.beta2;

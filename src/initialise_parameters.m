@@ -1,6 +1,3 @@
-clear all
-close all
-format short g
 %% parameters % initialise_param_and_X;
 addpath(genpath('../codes_generate_networks'));
 model.NodeNumber = 500;
@@ -32,7 +29,7 @@ model.state(model.idx) = model.Tau_start;
 model.record_state(model.idx, 1) = model.Tau_start;
 
 model.tD = 8;
-model.strategy = 'S0';
+model.strategy = 'S3'; % Strategy
 model.Resource_accumulate = zeros(1, model.NodeNumber); % at beginning
 model.R_tot = 1000;
 model.Rt = generate_basic(model);
@@ -43,29 +40,3 @@ model.Tau_start = 4;
 
 model.theta = 0.5;
 model.alpha = 5; % the "gain parameter" alpha in differential equation
-
-%% forward simulation
-% initialise_parameters;
-% model = forward(model);
-
-%% result
-num_average = 2;
-curve_ave = zeros(1, model.time_horizon+1);
-for loop=1:num_average
-    initialise_parameters;
-    model = forward(model);
-    curve_tmp = zeros(1, model.time_horizon+1);
-    for i=1:model.time_horizon+1
-        curve_tmp(i) = length(find(model.record_state(:, i) > 0.5));        
-    end
-    figure(loop)
-    plot(curve_tmp(1:80));
-    curve_ave = curve_ave + curve_tmp;
-end
-curve_ave = curve_ave / num_average;
-figure;
-plot( 1:80, curve_ave(1:80));
-% plot(num);
-title(['Strategy = ', num2str(model.strategy)], 'FontSize',18)
-xlabel('time horizon','FontSize',16)
-ylabel('damaged nodes', 'FontSize',16)
