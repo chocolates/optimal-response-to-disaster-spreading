@@ -29,7 +29,7 @@ model.state(model.idx) = model.Tau_start;
 model.record_state(model.idx, 1) = model.Tau_start;
 
 model.tD = 8;
-model.strategy = 'S3'; % Strategy
+model.strategy = 'S0'; % Strategy
 model.Resource_accumulate = zeros(1, model.NodeNumber); % at beginning
 model.R_tot = 1000;
 model.Rt = generate_basic(model);
@@ -39,4 +39,4 @@ model.alpha2 = 0.58;
 model.Tau_start = 4;
 
 model.theta = 0.5;
-model.alpha = 5; % the "gain parameter" alpha in differential equation
+model.alpha = 1.4; % the "gain parameter" alpha in differential equation
