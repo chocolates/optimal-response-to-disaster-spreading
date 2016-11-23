@@ -1,3 +1,5 @@
+
+
 %% parameters % initialise_param_and_X;
 addpath(genpath('../codes_generate_networks'));
 model.NodeNumber = 500;
@@ -21,7 +23,10 @@ end
 
 model.state = zeros(1, model.NodeNumber);
 model.record_state = zeros(model.NodeNumber, model.time_horizon+1); % record internal states at t=1,2,3,...,101
-model.idx = randi(model.NodeNumber);
+model.All_States = zeros(model.NodeNumber, model.TimeStep + 1);
+model.idx = randi(model.NodeNumber); % idx
+% model.idx = 1;
+
 disp(['network size is: ' num2str(model.NodeNumber)]);
 disp(['random chosen node is: ' num2str(model.idx)]);
 model.Tau_start = 4;
@@ -29,8 +34,8 @@ model.state(model.idx) = model.Tau_start;
 model.record_state(model.idx, 1) = model.Tau_start;
 
 model.tD = 8;
-model.strategy = 'S0'; % Strategy
-model.Resource_accumulate = zeros(1, model.NodeNumber); % at beginning
+model.strategy = 'S3'; % Strategy
+model.Resource_accumulate = zeros(1, model.NodeNumber); % Cumulative Resources at beginning
 model.R_tot = 1000;
 model.Rt = generate_basic(model);
 
@@ -39,4 +44,12 @@ model.alpha2 = 0.58;
 model.Tau_start = 4;
 
 model.theta = 0.5;
-model.alpha = 1.4; % the "gain parameter" alpha in differential equation
+model.alpha = 20; % the "gain parameter" alpha in differential equation
+
+model.beta = 0.025;
+model.K = model.M .* exp( - model.beta * model.delay); % for the second term
+model.K = model.M * exp(- model.beta * 1.4);
+for i=1:model.NodeNumber
+    denominator = 4 * model.outdegree(i) / (1 + 3 * model.outdegree(i));
+    model.K(i, :)  = model.K(i, :) / denominator;
+end
