@@ -9,9 +9,9 @@ initialise_parameters;
 % model = forward(model);
 
 %% result
-num_average = 50;
+num_average = 1;
 curve_ave = zeros(1, model.time_horizon+1);
-rng(2);
+% rng(2);
 for loop=1:num_average
     loop
     initialise_parameters;

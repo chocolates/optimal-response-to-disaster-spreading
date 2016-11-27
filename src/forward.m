@@ -20,6 +20,7 @@ function [ model ] = forward(model)
 
         Resource_each_node_at_t = generate_strategy(model, R_tol_at_t);      
         model.Resource_accumulate = model.Resource_accumulate + Resource_each_node_at_t;
+        model.R_each_node(:, t-1) = Resource_each_node_at_t;
         % iterate each node
         X_tmp1 = model.state;
         tau_t = (model.Tau_start - model.beta2) * exp(-model.alpha2 * model.Resource_accumulate) + model.beta2;
