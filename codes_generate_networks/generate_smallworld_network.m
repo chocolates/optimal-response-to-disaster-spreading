@@ -1,7 +1,7 @@
 function [ M ] = generate_smallworld_network()
 % K = 6 (connected to the 6 nearest neighbors)
     num_nodes = 500;
-    K  = 6;
+    K  = 6; % connect K/2 neighbors in left side and right side
     p1 = 0.3; % the Prob to become a clock edge
     p2 = 0.3; % the Prob to become a counter-clock edge
     p3 = 1 - p1 - p2; % the Prob to become a bidirectional edge
@@ -9,8 +9,7 @@ function [ M ] = generate_smallworld_network()
     
     M = zeros(num_nodes, num_nodes);
     
-    % for each node i, concentrate the K/2 edges from i to j, such that j >
-    % i
+    % for each node i, link the K/2 edges from i to j, such that j > i
     for i=1:num_nodes
         for j=1:K/2
            node1_id = i;
@@ -53,7 +52,7 @@ function [ M ] = generate_smallworld_network()
                    M(node_i, node_j) = 0.5;
                end
                           
-           else
+           else % bidirectional edge
                node_i = node1_id;
                node_j = node2_id;
                

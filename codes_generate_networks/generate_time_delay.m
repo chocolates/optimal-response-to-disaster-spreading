@@ -1,6 +1,9 @@
 function [ M, T ] = generate_time_delay(network_type)
 %generate time delay t_{ij}, network_type is in {'grid', 'random', 'SF', 'SW'}
 %   if there is a link from i to j, then t_{i,j} > 0; else t_{i,j} = 0
+%   grid network is ok!
+%   scale-free network is ok!
+%   small-world network is ok!
 
     
     %M = zeros(1,1);
