@@ -1,0 +1,3 @@
+grid linear:
+k = 0.25
+total resources: 180

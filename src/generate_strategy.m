@@ -47,7 +47,8 @@ function [ R_eachNode ] = generate_strategy( model, R_tol_at_t)
         else
             I_damaged = find(model.state(I_low) > 0.5);
             num_damaged = length(I_damaged);
-            R_eachNode(I_damaged) = (1 - k) * R_tol_at_t / num_damaged;
+            I_low_influenced = I_low(I_damaged);
+            R_eachNode(I_low_influenced) = (1 - k) * R_tol_at_t / num_damaged;
         end
     elseif strcmp(model.strategy, 'S6') % first damaged, if not, challenged (according to outdegree)
         R_eachNode = stratege_6(model, R_tol_at_t);
