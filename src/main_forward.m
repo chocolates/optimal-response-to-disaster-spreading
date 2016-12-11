@@ -1,41 +1,58 @@
 clear all
 close all
-format short g
-rng(2);
-%% initialization
-% initialise_parameters;
+rng(2)
+flag = 2; % 1 for continous; 2 for discrete
+model.strategy = 'S4';
+for k = 1 : 20
+    k
+    initialise_param_and_X;
+    X(model.idx, 1) = 4;
 
-%% forward simulation 
-% model = forward(model);
-
-%% result
-num_average = 10;
-
-for loop=1:num_average
-    loop
-    initialise_parameters;
-    model = forward(model);
-    curve_tmp = zeros(1, model.time_horizon+1);
-    for i=1:model.time_horizon+1
-        curve_tmp(i) = length(find(model.record_state(:, i) > 0.5));        
+    [X, model] = forward(X, model, flag);
+%     p_damaged_node(X, model, t_series)
+    
+    num = zeros(model.Nt + 1, 1);
+    
+    for i = 1 : model.Nt + 1
+        num(i) = length(find(X(:, i) > model.theta));
     end
-%     figure(loop)
-    figure;
-    plot(1:model.time_horizon, curve_tmp(1:model.time_horizon));
-%     figure;
-%     plot(model.state, 'o');
-    if loop==1
-        curve_ave = zeros(1, model.time_horizon+1);
+    
+    if k == 1
+        num_mean = 0.05 * num;
+    else
+        num_mean = num_mean + 0.05 * num;
     end
-    curve_ave = curve_ave + curve_tmp;
 end
-curve_ave = curve_ave / num_average;
 
-csvwrite([model.NetworkType, '_average_curve_', model.strategy, '.dat'], curve_ave);
-% 
-% figure(num_average+1);
-figure
-plot(1:model.time_horizon, curve_ave(1:model.time_horizon));
-title(['Strategy = ', num2str(model.strategy)], 'FontSize',18)
-xlabel('time horizon','FontSize',16)
-ylabel('damaged nodes', 'FontSize',16)
+plot(t_series, num_mean)
+xlabel('Time'); ylabel('Destroyed nodes')
+
+initialise_param_and_X;
+X(model.idx, 1) = 4;
+[X, model] = forward(X, model, flag);
+% for nt = 1 : model.Nt
+%     x = X(:, nt);
+%     
+%     x2d = reshape(x, 20, 25);
+% %     for i = 1 : 20
+% %         for j = 1 : 25
+% %             if x2d(i, j) > 0.5
+% %                 x2d(i, j) = 5;
+% %             end
+% %         end
+% %     end
+%     
+%     pcolor(x2d)
+%     colorbar
+%     axis equal
+%     title(['nt = ', num2str(nt)])
+% %     a = input('next');
+%     pause(0.05)
+% end
+
+% plotX(X)
+
+p_damaged_node(X, model, t_series)
+check_op_strategy(model.Rt, model.Rit);
+
+

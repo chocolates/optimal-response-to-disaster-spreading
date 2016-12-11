@@ -1,11 +1,17 @@
-function [ ] = p_damaged_node( X, model )
-%plot the curve of number of demaged nodes
-    num = zeros(1, model.TimeStep);
-    for i=1:model.TimeStep
-        num(i) = length(find(X(:, i) > 0.5));        
+function [ ] = p_damaged_node( X, model, t )
+%
+
+%     figure
+    
+    num = zeros(model.Nt + 1, 1);
+    
+    for i = 1 : model.Nt + 1
+        num(i) = length(find(X(:, i) > model.theta));
     end
-    plot(num(1:80));
     
-    
+    plot(t, num, 'LineWidth', 2)
+    xlabel('Time'); ylabel('Destroyed nodes')
+
+
 end
 
