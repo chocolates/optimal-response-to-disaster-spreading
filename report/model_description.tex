@@ -1,0 +1,50 @@
+Generally speaking, a network system contains many interconnected components. Each component may influence / be influenced by other components and each component has a recovery rate. The recovery rate is related with the external resources assiged to this component. Different strategies have different ways to assign external resources, thus leading to different results. Before we discuss these strategies, let us first specify the model of disaster spreading and the influence of external resources.
+% the interaction model
+\subsection{the dynamic model of disaster spreading}
+\label{sec:dynamicmodel}
+Our model of disaster spreading is slightly modified from the model proposed in \cite{buzna2007efficient}. The system is modeled as a directed graph $G=(V, E)$. Each node represents a component in this system and there is a directed edge from node $i$ to node $j$ if component $i$ has influence to component $j$. For node $i \in \{1, 2, \ldots, N\}$, its state at time $t$ is represented by a continuous function $x_i(t) \in \mathbb{R}^{+}$. When node $i$ is in normal state, the corresponding state variable $x_i$ is $0$, while if node $i$ is deviated from the normal state, its corresponding state variable $x_i > 0$.
+
+The whole system exhibits a natural level of resistance to challenges, which is reflected by the threshold $\theta_i \geq 0$ of node $i$. We say node $i$ is failed when $x_i \ge \theta_i$ and node $i$ is challenged but not failed when $0 < x_i < \theta_i$. So the state of node $i$ could be divided into these three cases:
+
+\begin{equation}
+	\label{eq:states}
+	\text{node $i$ is:}  
+		\begin{cases}
+			\text{normal}  & \text{if } x_i=0 \\
+			\text{challenged} & \text{if }  0 < x_i < \theta_i \\
+			\text{failed} & \text{if } \theta_i \leq x_i
+		\end{cases}
+\end{equation}
+
+The interactions between components are spreaded via edges, which is characterized by connection strength $M_{ij}$ and transmission delay $t_{ij}$. The dynamic of node $i$ is modeled by equation:
+\begin{equation}
+	\label{eq:dynamic}
+	\frac{dx_i}{dt} = - \frac{x_i}{\tau_i} + \Theta_i ( \sum_{i\neq j}\frac{M_{ji}x_j(t-t_{ji})}{f(O_j)} e^{-\beta t_{ji}} )
+\end{equation}
+%
+where the first term in right-hand-side models the self-recovery ability of node $i$ and $\tau_i$, known as the recovery time, is related to the resources distributed to node $i$. We will discribe $\tau_i$ in detail afterwards. The second term characterizes the influence of other nodes to node $i$. $M_{ij} = 0.5$ if there is an edge from node $i$ to node $j$ and $\beta=0.025$, as is used in \cite{buzna2007efficient}. The time delay $t_{ij}$ obeys a $\chi^2$ distribution, with degree freedom $\mu=4$. And the distribution is strectched by multiplying a factor $0.05$ and shifted with $1.2$. Finally the average delay $\langle t_{ij} \rangle = 1.4$. The function $f(O_j) = (a O_j) / (1 + b O_j)$ is used to reflect that the impact of highly connnected neighboring nodes is ``dissipated" among all out-edges. $O_j$ is the out-degree of node $j$. $a$ is set to $4$ and $b$ is set to $3$. $\Theta(\cdot)$ is the coupling function in sigmoid form:
+%
+\begin{equation}
+	\label{eq:sigmoid}
+	\Theta_i(y) = \frac{1-\exp(-\alpha y)}{1+\exp(-\alpha (y-\theta_i))}
+\end{equation}
+where $\alpha$ is set to $20$ in our report.
+
+We follow all the parameter settings in the original paper \cite{buzna2007efficient}, except for the time delay $t_{ij}$. Instead we set all $t_{ij}$ equal to $\langle t_{ij} \rangle = 1.4$.
+
+\subsection{self-recovery and external resources}
+In \ref{sec:dynamicmodel}, Eq. (\ref{eq:dynamic}) characters how disaster spreads in a system. The recovery rate $1 / \tau_i$ is defined as:
+
+\begin{equation}
+	\label{eq:taufun}
+	\frac{1}{\tau_i} = \frac{1}{(\tau_{start} - \beta_2) e^{-\alpha_2 R_i(t)} + \beta_2}
+\end{equation}
+%
+where $\tau_{start}=4$, $\alpha_2=0.58$ and $\beta_2=0.2$ are model parameters. Based on the assumption of \cite{buzna2007efficient}, resources will remain at a certain node and will not be assigned again once they have been assignment to some node. $R_i(t)$ is the cumulative resources of node $i$ at time $t$. 
+
+Eq. (\ref{eq:dynamic}) and (\ref{eq:taufun}) reflect that external resources could be reduce disaster spreading by increasing the recovery rate of its corresponding node. If no external resources are assigned to node $i$, it can recover from derivation with its internal recovery rate $1/\tau_{start}=0.25$. Otherwise, the recovery rate of node $i$ (Eq. (\ref{eq:taufun})) increases if more resources are assigned to node $i$. Furthermore, the maximal recovery rate is limited by $1/\beta_2=5$.
+
+Now, we define the mobilization of external resources. According to \cite{buzna2007efficient}, the amount of resources reached into the system by time $t$ is modeled by the shape of a continuous function $r(t) = a_1 t^{b_1} e^{-c_1 t}$. $a_1=530$, $b_1=1.6$ and $c_1=0.22$ are constant parameters. The mobilization then corresponds to the growing part of $r(t)$. The curve is furthermore normalized to fit the total external resources and simulation time horizon. Details will be discussed in section \ref{sec:implementIssues}.
+
+
+

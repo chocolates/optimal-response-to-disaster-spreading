@@ -1,0 +1,24 @@
+
+\subsection{Structure of Our Codes}
+The source codes used in experiments are in \emph{src} folder, which simulate disaster spreading and adjoint-method algorithm. \emph{src\_otherVersion} also contains some source code, which also implements the disaster spreading model. These two version of codes are developed individually. The purpose to implement the same model twice is that we can make sure our results are correct. Besides, the code to generate different networks are stored in \emph{codes\_generate\_networks} folder.
+
+Results of experiments are stored in \emph{results} folder. More specifically, 
+
+\begin{itemize}
+	\item \emph{results/Grid\_result\_original\_paper} corresponds to FIG. \ref{fig:reproduceresult} (a) and \emph{results/SF\_result\_original\_paper} corresponds to FIG. \ref{fig:reproduceresult} (b)
+	\item \emph{results/grid\_opt\_results} corresponds to FIG. \ref{fig:opt_on_grid} and \emph{results/sf\_opt\_results} corresponds to FIG. \ref{fig:opt_on_sf}
+	\item \emph{figs} folder contains the figures used in this report
+	\item \emph{report} folder contains latex template of this report
+\end{itemize}
+
+\subsection{How to Use Our Codes}
+We briefly explain how to run our codes.
+
+\begin{enumerate}
+	\item Change the parameter settings in \emph{initialise\_param\_and\_X.m} file in \emph{src} folder
+	\item Run the model using \emph{main.m} file in \emph{src} folder with MATLAB
+	\begin{enumerate}
+		\item if you want to simulate one of these six heuristic strategies, change \texttt{adj} (line 4) to $0$ and \texttt{max\_iter} (line 5) to 1
+		\item if you want to find the optimal solution, change: (1) \texttt{adj} (line 4) to $1$, (2) texttt{max\_iter} (line 5) to the maximal iterations of gradient descent, (3) \texttt{model.delta} (line 14) to the step size in each iteration of gradient descent, (4) \texttt{eps} (line 10) to your stop criterion, (5) \texttt{obj} (line 42/43) the objective function and (6) \texttt{X\_adj} (line 54/55) the initial condition for adjoint simulation.
+	\end{enumerate}
+\end{enumerate}

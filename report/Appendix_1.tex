@@ -1,0 +1,59 @@
+In this section we will present the adjoint system of our disaster spreading model.  For numerical implementation reason, we always need to transform the equation into a discrete version. One way to do this is to find a suitable basis to expand $r(t)$, but the choice here is not so clear in this case and we decide to discretize the resource strategy. $R_i(t)$ will be piecewise constant function, i.e. resource will only arrive at certain time, rather than a continuous function. Let us rewrite the controlling equation as 
+\beq
+	\frac {\pa\xx} {\pa t} = -{\ms P(t)}\xx + {\ms K}\xx, 
+\eeq
+in which ${\ms P(t)}$ is a diagonal matrix
+\beq
+	{\ms P}_{ij}(k) = \frac 1 {\tau_i(k)} \delta_{ij} = \frac{1}{(\tau_{start} - \beta_2)e^{-\alpha_2\sum_{nt = 1}^{k}\Delta R_i(nt)} + \beta_2}\delta_{ij}
+\eeq
+ and ${\ms K}$ is also a matrix with each element of ${\ms K}$ as a kernel function,
+\beq
+	{\ms K}_{ij}(t, s) = \frac{M_{ji}e^{-\beta t_{ji}}}{f(O_j)} \delta(s-t+t_{ji}), 
+\eeq
+ correspond to the two terms on the r.h.s of Eq. (\ref{eq:dynamic}). Clearly ${\ms P(t)}$ is a self-adjoint operator and the adjoint of ${\ms K}$ can be easily obtained by using Eq. (\ref{eq:adj_property}),
+\beq
+	{\ms K^\dagger}_{ij}(t, s) = \frac{M_{ji}e^{-\beta t_{ji}}}{f(O_j)} \delta(t+t_{ji}-s).
+\eeq
+
+Now we can formulate our Lagrange as
+\beq
+\begin{aligned}
+	\label{eq:Lagrange}
+	{\ms L} = & \sum_{i} f(x^{(i)}_T) + \int_{0}^{T} \la\tilde{\xd}, \frac{\pa \tilde{\xx}}{\pa t} - ({\ms K} - {\ms P})\tilde{\xx}\ra dt \\
+	 +  &\int_{10}^{T} \la\tilde{\xd_l}, \frac{\pa \tilde{\xd_l}}{\pa t} - ({\ms K} - {\ms P})\tilde{\xd_l}\ra dt + \sum_{t=1}^{Nt}\lambda_t(\sum_{i}\Delta R_i(t) - \Delta R(t)).
+\end{aligned}
+\eeq
+$l$ is index for the starting node of disaster spreading. $\tilde{\xd}$ stands for $\xd$ with its $l$ th element be 0, while $\tilde{\xd}_l$ represents a vector that all elements of $\xd$ is set to zero except for the $l$ th one.  $\Delta R_i(t)$ stands for resource increment at time t and $\Delta R(t)$ is the sum of increments at all nodes in the network. We assume our objective function has the form $\sum_{i} f(x^{(i)}_T)$. 
+
+Following the same steps as in Section \ref{sec:adjointmethod}, one can obtain the adjoint equations:
+\beq
+	-\frac{\pa x_i^\dagger}{\pa t} = \sum_{j}({\ms K^\dagger}_{ij} - {\ms P(t)}_{ij})x_j^\dagger, \forall i\not=l, t\in[0, T]
+\eeq
+and
+\beq
+-\frac{\pa x_l^\dagger}{\pa t} = \sum_{j}({\ms K^\dagger}_{lj} - {\ms P(t)}_{lj})x_j^\dagger, t\in[10, T].
+\eeq
+The compatibility condition is given by
+\beq
+	(x^\dagger_T)^{(i)} = -f'(x_T^{(i)}), 
+\eeq
+and the gradient of ${\ms L}$ w.r.t. $\Delta R_i(t)$ is 
+\beq
+\begin{aligned}
+	&\frac{\pa {\ms L}}{\pa \Delta R_i(t)} = \lambda_t + \int_{0}^{T} \la\frac{\pa {\ms P}}{\pa \Delta R_i(t)}\tilde{\xx}, \tilde{\xd}\ra dt + \int_{10}^{T} \la\frac{\pa {\ms P}}{\pa \Delta R_i(t)}\tilde{\xx}_l, \tilde{\xd}_l\ra dt \\
+	&= \lambda_t + \sum_{j=t}^{T} w_j\Delta t[\frac{\pa {\ms P}_{ii}(j)}{\pa \Delta R_i(t)}]x_i(j)x_i^\dagger(j) + \sum_{j=\max(t, 10)}^{T} w_j\Delta t[\frac{\pa {\ms P}_{ll}(j)}{\pa \Delta R_l(t)}]x_l(j)x_l^\dagger(j).
+\end{aligned}
+\eeq
+$w_j$ is integration weights and here we assume $t_D=0$ for simplicity. To evaluate this expression, we also need the value of $\lambda_t$, which is calculated from the constraint 
+$$ \sum_{i}\Delta R_i(t) - \Delta R(t) = 0 $$, i.e. 
+\beq
+	\sum_{i} \frac{\pa {\ms L}}{\pa \Delta R_i(t)} = 0.
+\eeq
+The strategy is updated as
+\beq
+	\Delta R_i(t) \leftarrow \Delta R_i(t) - \Delta\cdot\frac{\pa {\ms L}}{\pa \Delta R_i(t)}.
+\eeq
+As one may notice, the updated $\Delta R_i(t)$ might be negative. To solve this, we project $\Delta R_i(t)$ onto its domain and then normalize it to satisfy the constraint: 
+\beq
+	\Delta R_i(t) \longmapsto \frac {\mathbb{I}_{x>0}(\Delta R_i(t))} {\|\Delta R_i(t)\|} \Delta R(t).
+\eeq

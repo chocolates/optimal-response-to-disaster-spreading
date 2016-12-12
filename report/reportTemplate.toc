@@ -1,0 +1,21 @@
+\contentsline {section}{\numberline {1}Abstract}{4}
+\contentsline {section}{\numberline {2}Individual contributions}{4}
+\contentsline {section}{\numberline {3}Introduction and Motivations}{4}
+\contentsline {section}{\numberline {4}Disaster Spreading Model Description}{5}
+\contentsline {subsection}{\numberline {4.1}the dynamic model of disaster spreading}{5}
+\contentsline {subsection}{\numberline {4.2}self-recovery and external resources}{6}
+\contentsline {section}{\numberline {5}Different Strategies}{7}
+\contentsline {subsection}{\numberline {5.1}Some heuristic strategies to control disaster}{7}
+\contentsline {subsection}{\numberline {5.2}Disaster spreading as an optimization problem}{8}
+\contentsline {section}{\numberline {6}Adjoint Method for Optimization}{8}
+\contentsline {section}{\numberline {7}Implementation}{10}
+\contentsline {subsection}{\numberline {7.1}Practical details in model implementation}{10}
+\contentsline {subsection}{\numberline {7.2}Experiments setup}{10}
+\contentsline {section}{\numberline {8}Simulation Results and Discussion}{11}
+\contentsline {subsection}{\numberline {8.1}Reproducing Experiments of Original Paper}{11}
+\contentsline {subsection}{\numberline {8.2}The Optimal Strategy}{11}
+\contentsline {section}{\numberline {9}Summary and Outlook}{15}
+\contentsline {section}{\numberline {10}Appendix \textup {\uppercase {i}} -- Details about the adjoint method}{17}
+\contentsline {section}{\numberline {11}Appendix \textup {\uppercase {ii}} -- Explanation about our code structure}{19}
+\contentsline {subsection}{\numberline {11.1}Structure of Our Codes}{19}
+\contentsline {subsection}{\numberline {11.2}How to Use Our Codes}{19}

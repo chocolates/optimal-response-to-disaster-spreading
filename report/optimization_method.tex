@@ -1,0 +1,19 @@
+In this section, we review these six heuristic strategies studied in \cite{buzna2007efficient} and discuss how to model the disaster spreading as an optimization problem.
+
+\subsection{Some heuristic strategies to control disaster}
+In \cite{buzna2007efficient}, the authors examine these six heuristic strateties to distribute external resources:
+
+\begin{itemize}[label={}]
+	\item \textbf{S1} \quad \emph{uniform dissemination:} each node gets the same amount of resources
+	\item \textbf{S2} \quad \emph{out-degree based dissemination:} the resources are distributed over nodes proportionally to their out-degrees
+	\item \textbf{S3} \quad \emph{uniform reinforcement of challenged nodes:} all nodes $i\in\{1,2,\ldots, N\}$ with $x_i >0 $ are equally provided with resources
+	\item \textbf{S4} \quad \emph{simple targeted reinforcement of destroyed nodes:} damaged nodes are equally provided with resources with priority, while challenged nodes are uniformly reinforced if no damaged nodes exist
+	\item \textbf{S5} \quad \emph{simple targeted reinforcement of highly connected nodes: } a fraction $q$ of highly connected nodes is uniformly provided with resources by using the fraction $k$ of all resources, while the remaining resources are applied according to strategy \textbf{S4}
+	\item \textbf{S6} \quad \emph{out-degree-based targeted reinforcement of destroyed nodes:} application of strategy \textbf{S4}, but with a distribution of resources proportional to the out-degrees of nodes rather than a uniform distribution
+\end{itemize}
+%
+
+Among these six strategies, \textbf{S6} seems to be the most efficient one in many situations\cite{buzna2007efficient}, but it is almost for sure that there must be some optimal strategy that will have a better performance than \textbf{S6}. In the following subsection, we discuss how to get the optimal strategy from optimization.
+
+\subsection{Disaster spreading as an optimization problem}
+We formulate this question as an optimization problem to find the optimal strategy. Here we consider two optimization goal. The first one is of the same consideration of the original paper \cite{buzna2007efficient}: minimize the number of damaged nodes at end time $t = T$. The other one is to minimize the averaging status of all nodes. As one will see in section \ref{sec:results}, these two objectives lead to very different spreading process. The first principle tends to control the total number of damaged nodes, for example, a node with status value of $0.6$ got similar penalty as one having a value of $4.0$. The outcome is that some nodes may be in very bad status, while the total number of damaged nodes is in well control. However, the second strategy will lead to a more averaging status of all nodes, as one can see in Fig. \ref{fig:opt_on_grid} and \ref{fig:opt_on_sf}.

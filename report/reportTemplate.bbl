@@ -1,0 +1,24 @@
+\begin{thebibliography}{1}
+
+\bibitem{buzna2007efficient}
+Lubos Buzna, Karsten Peters, Hendrik Ammoser, Christian K{\"u}hnert, and Dirk
+  Helbing.
+\newblock Efficient response to cascading disaster spreading.
+\newblock {\em Physical Review E}, 75(5):056107, 2007.
+
+\bibitem{chen2015optimal}
+L~Chen, W~Herreman, and A~Jackson.
+\newblock Optimal dynamo action by steady flows confined to a cube.
+\newblock {\em Journal of Fluid Mechanics}, 783:23--45, 2015.
+
+\bibitem{li2011variational}
+Kuan Li, Andrew Jackson, and Philip~W Livermore.
+\newblock Variational data assimilation for the initial-value dynamo problem.
+\newblock {\em Physical Review E}, 84(5):056321, 2011.
+
+\bibitem{tromp2008spectral}
+Jeroen Tromp, Dimitri Komattisch, and Qinya Liu.
+\newblock Spectral-element and adjoint methods in seismology.
+\newblock {\em Communications in Computational Physics}, 3(1):1--32, 2008.
+
+\end{thebibliography}

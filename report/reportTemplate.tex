@@ -1,0 +1,166 @@
+\documentclass[11pt]{article}
+\usepackage{geometry}                
+\geometry{letterpaper}             
+\usepackage{color}
+\usepackage{enumitem}
+\usepackage{courier}
+\usepackage{cite}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{epstopdf}
+\usepackage{natbib}
+\usepackage{comment}
+\usepackage{subcaption}
+\usepackage{amssymb, amsmath}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+\newcommand{\RN}[1]{%
+  \textup{\uppercase\expandafter{\romannumeral#1}}%
+}
+\title{Optimal Strategy for Disaster Spreading}
+\author{Guangyu Li, Jiawen Luo, Zhichao Han}
+\date{date} 
+
+
+\usepackage{amsmath,amssymb,amstext,listings,xcolor,geometry,mathrsfs}
+
+\newcommand{\pa}{\partial}
+\newcommand{\ms}{\mathscr}
+\newcommand{\xx}{{\bf x}}
+\newcommand{\xd}{{\bf x}^{\dagger}}
+\newcommand{\ttt}{{\ms T}}
+\newcommand{\td}{{\ms T^{\dagger}}}
+\newcommand{\la}{\langle}
+\newcommand{\ra}{\rangle}
+\newcommand{\beq}{\begin{equation}}
+\newcommand{\eeq}{\end{equation}}
+\newcommand{\mL}{{\ms L}}
+
+
+
+\begin{document}
+
+
+\input{cover}
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+\section*{Agreement for free-download}
+\bigskip
+
+
+\bigskip
+
+
+\large We hereby agree to make our source code for this project freely available for download from the web pages of the SOMS chair. Furthermore, we assure that all source code is written by ourselves and is not violating any copyright restrictions.
+
+\begin{center}
+
+\bigskip
+
+
+\bigskip
+
+
+\begin{tabular}{@{}p{5cm}@{}@{}p{5cm}@{}@{}p{5cm}@{}}
+% \begin{minipage}{3cm}
+
+% \end{minipage}
+% &
+\begin{minipage}{5cm}
+\vspace{2mm} \large Name 1
+
+ \vspace{\baselineskip}
+
+\end{minipage}
+&
+\begin{minipage}{5cm}
+
+\large Name 2
+
+\end{minipage}
+&
+\begin{minipage}{5cm}
+
+\large Name 3
+
+\end{minipage}
+\end{tabular}
+
+
+\end{center}
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+% IMPORTANT
+% you MUST include the ETH declaration of originality here; it is available for download on the course website or at http://www.ethz.ch/faculty/exams/plagiarism/index_EN; it can be printed as pdf and should be filled out in handwriting
+
+
+%%%%%%%%%% Table of content %%%%%%%%%%%%%%%%%
+
+\tableofcontents
+
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\section{Abstract}
+\input{Abstract}
+
+\section{Individual contributions}
+\input{Individual_contributions}
+
+\section{Introduction and Motivations}
+\input{intro_and_motivation}
+
+\section{Disaster Spreading Model Description}
+\label{sec:spreadingmodel}
+\input{model_description}
+
+\section{Different Strategies}
+\label{sec:methods}
+\input{optimization_method}
+
+\section{Adjoint Method for Optimization}
+\label{sec:adjointmethod}
+\input{report_adj}
+
+\section{Implementation}
+\label{sec:implementation}
+\input{Implementation}
+
+\section{Simulation Results and Discussion}
+\label{sec:results}
+\input{result_and_discussion}
+
+\section{Summary and Outlook}
+\label{sec:summary}
+\input{Summary}
+
+
+
+% \section{References}
+\bibliography{mybib}{}
+\bibliographystyle{plain}
+
+\section{Appendix \RN{1} -- Details about the adjoint method}
+\label{sec:appendix1}
+\input{Appendix_1}
+
+\section{Appendix \RN{2} -- Explanation about our code structure}
+\label{sec:appendix2}
+\input{Appendix_2}
+
+
+
+\end{document}  
+
+
+
+ 

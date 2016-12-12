@@ -1,0 +1,55 @@
+
+As mentioned in the last section, our goal is to optimize the resource distribution strategy. In this section we introduce the adjoint method in a general setting. The detailed derivation of the adjoint system corresponding to our case will be explained in the Appendix \ref{sec:appendix1}. Adjoint method is widely used in many areas, for example, data assimilation \cite{li2011variational}, full wave inversion in seismology \cite{tromp2008spectral} and PDE constrained optimization \cite{chen2015optimal}. The main motivation for utilizing the adjoint method is that the parameters we want to optimize live in very high dimensions. Calculating derivatives of the objective function w.r.t. to $N$ parameters in a finite difference scheme will require $N$ times forward simulations, while the adjoint method will only require one forward and backward simulation, so in general it will reduce a lot of computation time.
+
+Suppose our dynamical system is governed by a partial differential equation, 
+
+\begin{equation}
+	\label{eq:forward}
+	\frac {\pa\xx} {\pa t} = \ttt \xx .
+\end{equation}
+
+$\xx$ lives in a Hilbert space $\ms H$ with inner product defined as $\la \cdot, \cdot\ra$. To make our discussion simple, let $\ttt$ be a bounded linear operator: ${\ms H} \rightarrow {\ms H}$. By Riesz representation theorem the adjoint operator of $\ttt$ exists and is unique, noted as $\td$. These two operators have the property, 
+
+\begin{equation}
+	\label{eq:adj_property}
+	\la \ttt\xx, {\bf y}\ra = 	\la \xx, \td{\bf y}\ra, \quad \xx, {\bf y} \in {\ms H}.
+\end{equation}
+
+Let our objective function be a scalar function $f(\xx_T)$ and the parameter to optimize be $r(t)$ satisfying constraint $g(r)  \equiv 0$. $g$ is also a scalar function for simplicity. The objective function value is uniquely controlled by parameter $r(t)$. Note that the operator $\ttt$ may also depend on $r(t)$. Now we will show how to derive the adjoint system and formulate our algorithm.
+
+Define the Lagrangian as
+\beq
+	\mL = f(\xx_T) + \int_{0}^{T}\la\xd, \frac {\pa\xx} {\pa t} - \ttt \xx\ra dt + \lambda(t)g(r), 
+\eeq 
+in which $\xd$ and $\lambda(t)$	are Lagrangian multipliers and $\xd$ is also know as the adjoint field of $\xx$. $T$ is the time horizon we will consider. Take the variation of $\mL$, 
+\beq
+	\delta \mL = \la\nabla_{\xx_T} \mL, \delta\xx_T\ra + \la\nabla_{\xd}\mL, \delta\xd\ra + \la\nabla_\xx\mL, \delta\xx\ra + \la\nabla_\lambda\mL, \delta\lambda\ra + \la\nabla_r\mL, \delta r\ra. 
+\eeq
+Integration by parts will give us, 
+\beq
+	\label{eq:compatibility}
+	\nabla_{\xx_T}\mL = \nabla f(\xx_T) + \xd_T = 0,
+\eeq
+\beq
+	\label{eq:adjoint_eq}
+	\nabla_\xx\mL = -\frac{\pa \xd}{\pa t} - \td\xd = 0,
+\eeq
+\beq
+	\label{eq:update}
+	\nabla_r\mL = \int_{0}^{T} \la\xd, -\nabla_{r(t)}(\ttt\xx)\ra dt + \lambda(t)\nabla_{r(t)}g(r(t)).
+\eeq
+Eq. (\ref{eq:compatibility}) is known as the compatibility condition, which determines the initial (or called the terminal condition in some literatures) of the adjoint field $\xd$. Eq. (\ref{eq:adjoint_eq}) is the so called adjoint equation which controls the evolution of $\xd$. Eq. (\ref{eq:update}) gives the gradient of $\mL$ w.r.t. our parameter $r(t)$ and we will update $r(t)$ using this information. Note that the term $\xd\delta\xx|_{t=0}$ vanishes due to our assumption that the initial condition is a fixed parameter.
+
+With all these formulas, we are able to construct our optimization algorithm as:
+\begin{enumerate}
+	\item Perform one forward simulation of Eq. (\ref{eq:forward});
+	\item Calculate $\xd_T$ according to Eq. (\ref{eq:compatibility});
+	\item Perform once backward simulation according to Eq. (\ref{eq:adjoint_eq});
+	\item Calculate $\nabla_r\mL$ from Eq. (\ref{eq:update});
+	\item Update $r(t)$ as $r(t) \leftarrow r(t) + \Delta\nabla_r\mL$, $\Delta$ is step size for updating;
+	\item If not converged, return to the first step.
+\end{enumerate}
+Note that $\lambda(t)$ will be calculated from the constraint $g(r) = 0$.
+
+
+% \end{document}
