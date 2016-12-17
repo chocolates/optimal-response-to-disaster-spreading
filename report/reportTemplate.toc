@@ -13,9 +13,11 @@
 \contentsline {subsection}{\numberline {7.2}Experiments setup}{10}
 \contentsline {section}{\numberline {8}Simulation Results and Discussion}{11}
 \contentsline {subsection}{\numberline {8.1}Reproducing Experiments of Original Paper}{11}
-\contentsline {subsection}{\numberline {8.2}The Optimal Strategy}{11}
-\contentsline {section}{\numberline {9}Summary and Outlook}{15}
-\contentsline {section}{\numberline {10}Appendix \textup {\uppercase {i}} -- Details about the adjoint method}{17}
-\contentsline {section}{\numberline {11}Appendix \textup {\uppercase {ii}} -- Explanation about our code structure}{19}
-\contentsline {subsection}{\numberline {11.1}Structure of Our Codes}{19}
-\contentsline {subsection}{\numberline {11.2}How to Use Our Codes}{19}
+\contentsline {subsection}{\numberline {8.2}The Optimal Strategy}{13}
+\contentsline {subsubsection}{\numberline {8.2.1}Minimize The Number of Damaged Nodes}{13}
+\contentsline {subsubsection}{\numberline {8.2.2}Optimize Final States}{14}
+\contentsline {section}{\numberline {9}Summary and Outlook}{17}
+\contentsline {section}{\numberline {10}Appendix \textup {\uppercase {i}} -- Details about the adjoint method}{19}
+\contentsline {section}{\numberline {11}Appendix \textup {\uppercase {ii}} -- Explanation about our code structure}{21}
+\contentsline {subsection}{\numberline {11.1}Structure of Our Codes}{21}
+\contentsline {subsection}{\numberline {11.2}How to Use Our Codes}{21}
