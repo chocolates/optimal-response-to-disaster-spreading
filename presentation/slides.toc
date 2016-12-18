@@ -1,0 +1,4 @@
+\beamer@endinputifotherversion {3.33pt}
+\beamer@sectionintoc {1}{introduction}{2}{0}{1}
+\beamer@sectionintoc {2}{Adjoint Method}{7}{0}{2}
+\beamer@sectionintoc {3}{Results}{13}{0}{3}
