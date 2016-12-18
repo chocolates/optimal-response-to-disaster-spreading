@@ -45,10 +45,7 @@ and the gradient of ${\ms L}$ w.r.t. $\Delta R_i(t)$ is
 \end{aligned}
 \eeq
 $w_j$ is integration weights and here we assume $t_D=0$ for simplicity. To evaluate this expression, we also need the value of $\lambda_t$, which is calculated from the constraint 
-$$ \sum_{i}\Delta R_i(t) - \Delta R(t) = 0 $$, i.e. 
-\beq
-	\sum_{i} \frac{\pa {\ms L}}{\pa \Delta R_i(t)} = 0.
-\eeq
+$$ \sum_{i}\Delta R_i(t) - \Delta R(t) = 0. $$
 The strategy is updated as
 \beq
 	\Delta R_i(t) \leftarrow \Delta R_i(t) - \Delta\cdot\frac{\pa {\ms L}}{\pa \Delta R_i(t)}.
